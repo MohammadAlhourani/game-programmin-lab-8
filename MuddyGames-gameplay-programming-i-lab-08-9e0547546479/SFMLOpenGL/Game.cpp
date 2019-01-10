@@ -10,9 +10,39 @@ Game::Game() : window(VideoMode(800, 600), "OpenGL Cube")
 
 Game::~Game() {}
 
-float vertices[] = { 1.0f, 1.0f, -5.0f, -1.0f, 1.0f, -5.0f, -1.0f, -1.0f, -5.0f };
-float colors[] = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f };
-unsigned int vertex_index[] = { 0, 1, 2 };
+float vertices[] = {
+
+	1.0f, 1.0f, -5.0f, // 0
+	-1.0f, 1.0f, -5.0f, // 1
+	-1.0f, -1.0f, -5.0f, // 2
+	1.0f, -1.0f, -5.0f, // 3
+
+	1.0f, 1.0f, -15.0f, // 4
+   -1.0f, 1.0f, -15.0f, // 5
+   -1.0f, -1.0f, -15.0f, // 6
+	1.0f, -1.0f, -15.0f, //7
+	 
+};
+
+
+
+float colors[] = { 0.583f,  0.771f,  0.014f,
+0.609f,  0.115f,  0.436f,
+0.327f,  0.483f,  0.844f,
+0.822f,  0.569f,  0.201f,
+0.435f,  0.602f,  0.223f,
+0.310f,  0.747f,  0.185f,
+0.597f,  0.770f,  0.761f,
+0.559f,  0.436f,  0.730f,
+ };
+
+unsigned int vertex_index[] = { 0, 1, 2 ,2 ,3, 0,  // front face
+								4, 5, 6, 6, 7, 4, // back face
+								0, 1, 4, 4, 5, 1, // top  face
+								0, 3, 4, 4, 7, 3, // right face
+								2, 3, 7, 7, 6, 2, // bottom face
+								6, 2, 1 , 6, 1, 5 // left face
+								};
 
 void Game::run()
 {
@@ -23,7 +53,7 @@ void Game::run()
 
 	while (isRunning) {
 
-		cout << "Game running..." << endl;
+		
 
 		while (window.pollEvent(event))
 		{
@@ -53,12 +83,12 @@ void Game::update()
 {
 	elapsed = clock.getElapsedTime();
 
-	cout << "Update up" << endl;
+	
 }
 
 void Game::render()
 {
-	cout << "Drawing" << endl;
+	
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -67,9 +97,9 @@ void Game::render()
 	glVertexPointer(3, GL_FLOAT, 0, &vertices);
 	glColorPointer(3, GL_FLOAT, 0, &colors);
 
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
+	//glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &vertex_index);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, &vertex_index);
 
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -80,6 +110,6 @@ void Game::render()
 
 void Game::unload()
 {
-	cout << "Cleaning up" << endl;
+	
 }
 
