@@ -4,12 +4,12 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
-#include <Vector3.h>
-#include <Matrix3.h>
+#include "MyMatrix3.h"
+#include "MyVector3.h"
 
 using namespace std;
 using namespace sf;
-using namespace gpp;
+
 
 class Game
 {
@@ -17,13 +17,15 @@ public:
 	Game();
 	~Game();
 	void run();
+
+	void matrixApp(MyMatrix3 t_matrix);
+
 private:
 	Window window;
 	bool isRunning = false;
 	void initialize();
 	void update();
 	void render();
-	void unload();
 
 	Clock clock;
 	Time elapsed;

@@ -68,11 +68,26 @@ void Game::run()
 
 }
 
+void Game::matrixApp(MyMatrix3 t_matrix)
+{
+
+	for (int index = 0; index < 36; index += 3)
+	{
+		MyVector3 t_vector = MyVector3(vertices[index],vertices[index + 1], vertices[index + 2]);
+
+		t_vector = t_matrix * t_vector;
+		
+		vertices[index] = t_vector.x;
+		vertices[index + 1] = t_vector.y;
+		vertices[index + 2] = t_vector.z;
+	}
+}
+
 void Game::initialize()
 {
 	isRunning = true;
 
-	//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45.0, window.getSize().x / window.getSize().y, 1.0, 500.0);
@@ -83,12 +98,36 @@ void Game::update()
 {
 	elapsed = clock.getElapsedTime();
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		matrixApp(MyMatrix3::translation(MyVector3(0.0005,0,0)));
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		matrixApp(MyMatrix3::translation(MyVector3(-0.0005, 0, 0)));
+	}
 	
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		matrixApp(MyMatrix3::rotationZ(0.005));
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		matrixApp(MyMatrix3::scale(1.005));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	{
+		matrixApp(MyMatrix3::scale(0.995));
+	}
+
 }
 
 void Game::render()
 {
-	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -107,9 +146,3 @@ void Game::render()
 	window.display();
 
 }
-
-void Game::unload()
-{
-	
-}
-
